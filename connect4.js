@@ -5,11 +5,11 @@
  * board fills (tie)
  */
 class Game {
-	constructor() {
-		let currPlayer = 1;
-		let board = [];
-		const WIDTH = 7;
-		const HEIGHT = 6;
+	constructor(height, width) {
+		this.currPlayer = 1;
+		this.board = [];
+		this.WIDTH = width;
+		this.HEIGHT = height;
 	}
 	makeBoard() {
 		for (let y = 0; y < this.HEIGHT; y++) {
@@ -130,4 +130,4 @@ class Game {
 	}
 }
 
-new Game();
+new Game(6, 7);
