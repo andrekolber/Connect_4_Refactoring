@@ -5,13 +5,15 @@
  * board fills (tie)
  */
 class Game {
-	constructor(height, width) {
+	constructor(height = 6, width = 7) {
 		this.currPlayer = 1;
-		this.board = [];
 		this.WIDTH = width;
 		this.HEIGHT = height;
+		this.makeBoard();
+		this.makeHtmlBoard();
 	}
 	makeBoard() {
+		this.board = [];
 		for (let y = 0; y < this.HEIGHT; y++) {
 			this.board.push(Array.from({ length: this.WIDTH }));
 		}
@@ -22,7 +24,7 @@ class Game {
 		// make column tops (clickable area for adding a piece to that column)
 		const top = document.createElement('tr');
 		top.setAttribute('id', 'column-top');
-		top.addEventListener('click', handleClick);
+		top.addEventListener('click', this.handleClick);
 
 		for (let x = 0; x < this.WIDTH; x++) {
 			const headCell = document.createElement('td');
@@ -70,23 +72,23 @@ class Game {
 		const x = +evt.target.id;
 
 		// get next spot in column (if none, ignore click)
-		const y = findSpotForCol(x);
+		const y = this.findSpotForCol(x);
 		if (y === null) {
 			return;
 		}
 
 		// place piece in board and add to HTML table
-		this.board[y][x] = currPlayer;
-		placeInTable(y, x);
+		this.board[y][x] = this.currPlayer;
+		this.placeInTable(y, x);
 
 		// check for win
-		if (checkForWin()) {
-			return endGame(`Player ${currPlayer} won!`);
+		if (this.checkForWin()) {
+			return endGame(`Player ${this.currPlayer} won!`);
 		}
 
 		// check for tie
 		if (this.board.every((row) => row.every((cell) => cell))) {
-			return endGame('Tie!');
+			return this.endGame('Tie!');
 		}
 
 		// switch players
@@ -121,12 +123,6 @@ class Game {
 				}
 			}
 		}
-	}
-	makeBoard() {
-		this.makeBoard();
-	}
-	makeHtmlBoard() {
-		this.makeHtmlBoard();
 	}
 }
 
